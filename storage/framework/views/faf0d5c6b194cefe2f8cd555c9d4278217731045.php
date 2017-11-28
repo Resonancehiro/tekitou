@@ -1,0 +1,80 @@
+
+
+<?php $__env->startSection('content'); ?>
+        <!DOCTYPE html>
+
+<html lang="ja">
+<head>
+    <link href="/css/style.css"rel="stylesheet" type="text/css">
+    <link href="/css/box.css"rel="stylesheet" type="text/css">
+    <title>質問掲示板</title>
+</head>
+
+<div align="center"><p>質問掲示板</p></div>
+
+<body>
+
+<div  align="center">
+
+    <table class="type01">
+        <?php foreach($task as $t){ ?>
+        <tr>
+            <td><?=$t->id?></td>
+            <th scope="row" style="color: blue"><?=$t->qname?></th>
+            <td><?=$t->qtext?></td>
+            <td><?=$t->time?></td>
+            <td><a href="/delete?id=<?=$t->id?>"><input type="submit" value="消去" ></a></td>
+        </tr>
+        <?php } ?>
+
+    </table>
+
+    <form action="/mquestionboard" method="POST" >
+        <?=  csrf_field()  ?>
+        <table>
+            <tr>
+                <th>
+
+                    <span style="color: blue">name</span>
+                    <input type="text" name="name" >
+                    <input type="hidden" name="time" value="
+                <?php echo date('Y/m/d H:i',strtotime('+9 hour')); ?>"><br>
+
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    コメント
+                    <div>
+                    <textarea name="text" rows="8" cols="40" wrap="hard">
+                    </textarea>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+
+            </tr>
+            <tr>
+                <th>
+                    <input type="submit" value="送信" >
+                </th>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
+
+<?php if($errors->first('name')):?>
+名前を入力してください。
+<?php endif;?>
+
+<?php if($errors->first('text')):?>
+コメントを入力してください。
+<?php endif;?>
+
+
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
